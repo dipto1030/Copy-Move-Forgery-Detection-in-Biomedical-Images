@@ -16,29 +16,29 @@ The dataset consists of 3,000+ biomedical images from published papers, each ann
 Rather than applying a single end-to-end model to raw images, this solution decomposes the problem into a **structured multi-stage pipeline** tailored to the structure of scientific figures:
 
 ```
-Input Image
-    │
-    ▼
+            Input Image
+            │
+            ▼
 [Stage 1]  YOLO Panel Detector (dual-model ensemble)
            Localises sub-panels: Blots, Microscopy, Graphs, Flow Cytometry ...
-    │
-    ▼
+            │
+            ▼
 [Stage 2]  Contrastive Embedding Similarity Screening (SupCon)
            Finds candidate duplicate panel pairs via cosine similarity
-    │
-    ▼
+            │
+            ▼
 [Stage 3]  LightGlue Geometric Verification (SIFT / ALIKED)
            Keypoint matching + MAGSAC homography → pixel-level copy-move masks
-    │
-    ▼
+            │
+            ▼
 [Stage 4]  Strip Detector (YOLOv8-Seg + embeddings)
            Detects reused horizontal strips within western blot panels
-    │
-    ▼
+            │
+            ▼
 [Fallback] DINOv2 Encoder + U-Net-style Decoder (Segmentation model)
            Pixel-level semantic segmentation for non-copy-move forgeries
-    │
-    ▼
+            │
+            ▼
 Output: RLE-encoded binary forgery mask  OR  "authentic"
 ```
 
